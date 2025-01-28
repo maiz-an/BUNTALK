@@ -8,8 +8,8 @@
 #include<iomanip>
 #include<cstdlib>
 #include <ctime>
-#include <limits>  // To fix the 'numeric_limits' issue
-#include <ctime>   // For time functions
+#include <limits>
+#include <ctime>
 using namespace std;
 
 // Structure to bakery item
@@ -1040,92 +1040,90 @@ void updateBillingHistory(const BillingHistory& history) {
 
 //funtion to genarate bill
 void generateBill() {
-	system("CLS");
-	cout << endl << endl << endl << endl << endl << endl << endl << endl << endl;
+    system("CLS");
+    cout << endl << endl << endl << endl << endl << endl << endl << endl << endl;
 
-	if (numCartItems == 0) {
-		mainDisplay();
-		cout << "\t\t\t\t\t\t\tNo items in the shopping cart." << endl;
-		cout << "\t\t\t\t\t\t\tPress Enter to go back to the Cashier menu... ^^/ " << endl << endl;
-		cin.ignore();
-		cin.get(); // Wait for Enter key
-		cout << endl << endl;
-		cashierMenu();
-		return; // Exit the function
+    if (numCartItems == 0) {
+        mainDisplay();
+        cout << "\t\t\t\t\t\t\tNo items in the shopping cart." << endl;
+        cout << "\t\t\t\t\t\t\tPress Enter to go back to the Cashier menu... ^^/ " << endl << endl;
+        cin.ignore();
+        cin.get(); // Wait for Enter key
+        cout << endl << endl;
+        cashierMenu();
+        return; // Exit the function
+    }
 
-	}
-	mainDisplay();
-	string cnm, ordn;
-	cout << "\t\t\t\t\tEnter Customer Name : "; cin >> cnm; cout << endl;
-	cout << "\t\t\t\t\tEnter Order Number  : "; cin >> ordn;  cout << endl;
+    mainDisplay();
+    string cnm, ordn;
+    cout << "\t\t\t\t\tEnter Customer Name : "; cin >> cnm; cout << endl;
+    cout << "\t\t\t\t\tEnter Order Number  : "; cin >> ordn; cout << endl;
 
-	std::string currentDate = getCurrentDate();
-	std::string currentTime = getCurrentTime(); 
-	double stotal = 0.0;
-	double total = 0.0;
-	double dis = 0.0;
-	system("CLS");
-	cout << endl << endl << endl;
-	
+    std::string currentDate = getCurrentDate();
+    std::string currentTime = getCurrentTime(); 
+    double stotal = 0.0;
+    double total = 0.0;
+    double dis = 0.0;
+    system("CLS");
+    cout << endl << endl << endl;
 
-	for (int i = 0; i < numCartItems; ++i) {
+    // Print the bill header only once
+    cout << "\t\t\t\t-----------------------------------------------------------------------------------------------\n";
+    cout << "\t\t\t\t\t\t\t\t          BUN TALK BAKERY\n";
+    cout << "\t\t\t\t\t\t\t\t          Sales Receipt\n";
+    cout << "\t\t\t\t-----------------------------------------------------------------------------------------------\n"; cout << endl;
+    cout << "\t\t\t\t\t\t\t\t Customer Name : " << cnm << endl;
+    cout << "\t\t\t\t\t\t\t\t Order Number  : " << ordn << endl;
+    cout << "\t\t\t\t\t\t\t\t Date          : " << currentDate << endl;
+    cout << "\t\t\t\t\t\t\t\t Time          : " << currentTime << endl;
+    cout << "\t\t\t\t-----------------------------------------------------------------------------------------------\n" << endl;
 
-		cout << "\t\t\t\t-----------------------------------------------------------------------------------------------\n";
-		cout << "\t\t\t\t\t\t\t\t          BUN TALK BAKERY\n";
-		cout << "\t\t\t\t\t\t\t\t          Sales Receipt\n";
-		cout << "\t\t\t\t-----------------------------------------------------------------------------------------------\n"; cout << endl;
-		cout << "\t\t\t\t\t\t\t\t Custemor Name : " << cnm << endl;
-		cout << "\t\t\t\t\t\t\t\t Order Number  : " << ordn << endl;
-		cout << "\t\t\t\t\t\t\t\t Date          : " << currentDate << endl;
-		cout << "\t\t\t\t\t\t\t\t Time          : " << currentTime << endl;
+    cout << "\t\t\t\t-----------------------------------------------------------------------------------------------\n";
+    cout << "\t\t\t\t" << "\t" << setw(10) << "Quantity" << setw(20) << "Item" << setw(20) << "Price" << setw(15) << "Total\n";
+    cout << "\t\t\t\t-----------------------------------------------------------------------------------------------\n";
+    cout << endl;
 
-		cout << "\t\t\t\t-----------------------------------------------------------------------------------------------\n" << endl;
+    // Loop through the cart and print item details
+    for (int i = 0; i < numCartItems; ++i) {
+        double itemTotal = ShoppingCart[i].price * ShoppingCart[i].quantity;
+        cout << "\t\t\t\t" << setw(13) << ShoppingCart[i].quantity << setw(23) << ShoppingCart[i].name
+            << "\t" << setw(13) << "Rs." << ShoppingCart[i].price << setw(15) << "Rs." << itemTotal << endl;
+        stotal += itemTotal;
+    }
 
+    // Calculate discount and total price
+    dis = stotal * 0.1;
+    total = stotal - dis;
 
-		cout << "\t\t\t\t-----------------------------------------------------------------------------------------------\n";
-		cout << "\t\t\t\t" << "\t" << setw(10) << "Quantity" << setw(20) << "Item" << setw(20) << "Price" << setw(15) << "Total\n";
-		cout << "\t\t\t\t-----------------------------------------------------------------------------------------------\n";
-		cout << endl;
+    cout << "\t\t\t\t-----------------------------------------------------------------------------------------------\n";
+    cout << endl;
+    cout << "\t\t\t\t\t\t\t\t\tSub Total Price: Rs." << stotal << endl;
+    cout << "\t\t\t\t\t\t\t\t\tDiscound (10%) : Rs." << dis << endl;
+    cout << "\t\t\t\t-----------------------------------------------------------------------------------------------\n";
+    cout << endl;
+    cout << "\t\t\t\t\t\t\t\t\tTotal Price    : Rs." << total << endl;
+    cout << "\t\t\t\t\t\t\t\tThank you for shopping at BUN TALK BAKERY!\n";
+    cout << "\t\t\t\t-----------------------------------------------------------------------------------------------\n";
 
-		double itemTotal = ShoppingCart[i].price * ShoppingCart[i].quantity;
-		cout << "\t\t\t\t" << setw(13) << ShoppingCart[i].quantity << setw(23) << ShoppingCart[i].name
-			<< "\t" << setw(13) << "Rs." << ShoppingCart[i].price << setw(15) << "Rs." << itemTotal << endl;
-		stotal += itemTotal;
-		dis = stotal * 0.1;
-		total = stotal - dis;
-	}
+    // Define billing history
+    BillingHistory history;
+    history.customerName = cnm;
+    history.date = currentDate;
+    history.time = currentTime;
+    history.totalAmount = total;
+    history.discb = dis;
+    history.subth = stotal;
 
-	cout << "\t\t\t\t-----------------------------------------------------------------------------------------------\n";
-	cout << endl;
-	cout << "\t\t\t\t\t\t\t\t\tSub Total Price: Rs." << stotal << endl;
-	cout << "\t\t\t\t\t\t\t\t\tDiscound (10%) : Rs." << dis << endl;
-	cout << "\t\t\t\t-----------------------------------------------------------------------------------------------\n";
-	cout << endl;
-	cout << "\t\t\t\t\t\t\t\t\tTotal Price    : Rs." << total << endl;
-	cout << "\t\t\t\t\t\t\t\tThank you for shopping at BUN TALK BAKERY!\n";
-	cout << "\t\t\t\t-----------------------------------------------------------------------------------------------\n";
+    // Update the billing history 
+    cout << endl;
+    updateBillingHistory(history);
 
-	// defining 
-	BillingHistory history;
-	history.customerName = cnm;
-	history.date = currentDate;
-	history.time = currentTime;
-	history.totalAmount = total;
-	history.discb = dis;
-	history.subth = stotal;
-
-
-	// Update the billing history 
-	cout << endl;
-	updateBillingHistory(history);
-
-	// Clear the shopping cart
-	numCartItems = 0;
-	cout << endl << "\t\t\t\t\t\t\tPress Enter to go back to the Cashier menu... ^^/ " << endl << endl;
-	cin.ignore();
-	cin.get(); // Wait for Enter key
-	cout << endl << endl; cashierMenu();
-
+    // Clear the shopping cart
+    numCartItems = 0;
+    cout << endl << "\t\t\t\t\t\t\tPress Enter to go back to the Cashier menu... ^^/ " << endl << endl;
+    cin.ignore();
+    cin.get(); // Wait for Enter key
+    cout << endl << endl; cashierMenu();
 }
 
 // view bakery items
