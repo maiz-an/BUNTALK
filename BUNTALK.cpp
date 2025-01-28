@@ -8,7 +8,8 @@
 #include<iomanip>
 #include<cstdlib>
 #include <ctime>
-
+#include <limits>  // To fix the 'numeric_limits' issue
+#include <ctime>   // For time functions
 using namespace std;
 
 // Structure to bakery item
@@ -34,24 +35,25 @@ struct CartItem {
 
 CartItem ShoppingCart[100];
 int numCartItems = 0;
+#define _CRT_SECURE_NO_WARNINGS
 
 //to get curent date in bill.
 std::string getCurrentDate() {
-	time_t now = time(0);
-	struct tm currentTime;
-	char buffer[80];
-	localtime_s(&currentTime, &now);
-	strftime(buffer, sizeof(buffer), "%Y-%m-%d", &currentTime);
-	return std::string(buffer);
+    std::time_t now = std::time(0);
+    std::tm* currentTime = std::localtime(&now);  // Use localtime instead of localtime_r
+
+    char dateBuffer[80];
+    std::strftime(dateBuffer, sizeof(dateBuffer), "%Y-%m-%d", currentTime);
+    return std::string(dateBuffer);
 }
-// to get current time in Bill
+
 std::string getCurrentTime() {
-	time_t now = time(0);
-	struct tm currentTime;
-	char buffer[80];
-	localtime_s(&currentTime, &now);
-	strftime(buffer, sizeof(buffer), "%H:%M:%S", &currentTime);
-	return buffer;
+    std::time_t now = std::time(0);
+    std::tm* currentTime = std::localtime(&now);  // Use localtime instead of localtime_r
+
+    char timeBuffer[80];
+    std::strftime(timeBuffer, sizeof(timeBuffer), "%H:%M:%S", currentTime);
+    return std::string(timeBuffer);
 }
 
 //Structure for Billing History
